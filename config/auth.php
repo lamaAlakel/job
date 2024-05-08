@@ -48,6 +48,10 @@ return [
             'driver' => 'sanctum',
             'provider' => 'mobileUser',
         ],
+        'company' => [
+            'driver' => 'jwt',
+            'provider' => 'users',
+        ]
     ],
 
     /*
