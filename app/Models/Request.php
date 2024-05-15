@@ -12,7 +12,17 @@ class Request extends Model
         'mobile_user_id',
         'job_id',
         'message',
+        'cv'
     ];
+
+    public function mobile_user()
+    {
+        return $this->belongsTo(MobileUser::class , 'mobile_user_id') ;
+    }
+    public function job()
+    {
+        return $this->belongsTo(Job::class , 'job_id') ;
+    }
 
 
 }
