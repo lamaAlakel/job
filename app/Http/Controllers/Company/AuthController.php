@@ -63,6 +63,7 @@ class AuthController extends Controller
         ]);
     }
 
+
     public function login(Request $request)
     {
         $request->validate([
@@ -92,7 +93,6 @@ class AuthController extends Controller
     }
 
 
-
     public function logout()
     {
         Auth::guard('company')->logout();
@@ -101,6 +101,7 @@ class AuthController extends Controller
             'message' => 'Successfully logged out',
         ]);
     }
+
 
     public function refresh()
     {
