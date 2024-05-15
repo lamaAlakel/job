@@ -17,34 +17,6 @@ class AuthController extends Controller
         $this->middleware('auth:company', ['except' => ['login','register']]);
     }
 
-    public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ]);
-        $credentials = $request->only('email', 'password');
-
-        $token = Auth::guard('company')->attempt($credentials);
-        if (!$token) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Unauthorized',
-            ], 401);
-        }
-
-        $user = Auth::guard('company')->user();
-        return response()->json([
-            'status' => 'success',
-            'user' => $user,
-            'authorisation' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
-        ]);
-
-    }
-
     public function register(Request $request){
         $validate = Validator::make($request->all(), [
             'name' => 'required|string|max:255 ',
@@ -91,6 +63,36 @@ class AuthController extends Controller
         ]);
     }
 
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ]);
+        $credentials = $request->only('email', 'password');
+
+        $token = Auth::guard('company')->attempt($credentials);
+        if (!$token) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Unauthorized',
+            ], 401);
+        }
+
+        $user = Auth::guard('company')->user();
+        return response()->json([
+            'status' => 'success',
+            'user' => $user,
+            'authorisation' => [
+                'token' => $token,
+                'type' => 'bearer',
+            ]
+        ]);
+
+    }
+
+
+
     public function logout()
     {
         Auth::guard('company')->logout();
@@ -111,6 +113,8 @@ class AuthController extends Controller
             ]
         ]);
     }
+
+
 
 
 }
