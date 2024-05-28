@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('commercial_number');
             $table->text('bio')->nullable();
-            $table->string('phone_number');
             $table->string('location')->nullable();
             $table->string('profile_image')->nullable();
             $table->string('email')->unique();

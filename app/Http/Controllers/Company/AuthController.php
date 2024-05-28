@@ -21,10 +21,11 @@ class AuthController extends Controller
         $validate = Validator::make($request->all(), [
             'name' => 'required|string|max:255 ',
             'commercial_number' => 'required|string',
-            'bio' => 'string',
+            'bio' => 'nullable |string',
             'profile_image' => 'nullable|image',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
+            'location'=>'nullable | string'
         ]);
         if ($validate->fails()) {
             return response()->json([
@@ -48,7 +49,6 @@ class AuthController extends Controller
             'profile_image' => $path,
             'email' =>  $request['email'],
             'password' => Hash::make($request['password']),
-            'phone_number'=>$request['phone_number']
         ]);
 
         $token = Auth::guard('company')->login($user);

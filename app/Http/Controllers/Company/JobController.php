@@ -37,7 +37,7 @@ class JobController extends Controller
 
     public function deleteJob($jobId)
     {
-        $company = Auth:: user();
+        $company = Auth::guard('company')->user();
         if (!$company) {
             return response()->json([
                 'message' => 'no company'], 404);

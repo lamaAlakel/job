@@ -19,6 +19,7 @@ class Job extends Model
         'max_salary',
         'min_salary',
         'image',
+        'type'
     ];
     public function user(){
         return $this->belongsTo(User::class , 'user_id');
