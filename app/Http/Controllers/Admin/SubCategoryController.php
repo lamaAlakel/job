@@ -12,12 +12,14 @@ class SubCategoryController extends Controller
     public function addSubCategory($request){
 
         $subcategory= SubCategory::create([
+           'category_id'=> $request['category_id'] ,
             'name'=> $request['name']
         ]);
         return response()->json([
             'status'=>true ,
+            'subcategory'=> $subcategory,
             'message'=>'add subcategory successfully'
-        ]);
+        ], 201);
     }
 
     public function deleteSubCategory($subcategory_id){

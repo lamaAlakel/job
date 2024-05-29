@@ -15,8 +15,9 @@ class CategoryController extends Controller
         ]);
     return response()->json([
         'status'=>true ,
+        'category'=> $category,
         'message'=>'add category successfully'
-    ]);
+    ], 201);
     }
 
     public function deleteCategory($category_id){
