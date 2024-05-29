@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
-use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Models\Job;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
+
     public function createJob(Request $request)
     {
         $company = Auth::guard('company')->user();
@@ -34,7 +34,6 @@ class JobController extends Controller
             'job' => $job], 201);
     }
 
-
     public function deleteJob($jobId)
     {
         $company = Auth::guard('company')->user();
@@ -46,6 +45,10 @@ class JobController extends Controller
         if (!$job) {
             return response()->json([
                 'message' => 'no job'], 404);
+        }
+        if ($job->user_id != $company->id) {
+            return response()->json([
+                'message' => 'forbidden'], 403);
         }
         $job->delete();
         return response()->json([
