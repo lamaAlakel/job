@@ -49,6 +49,7 @@ class AuthController extends Controller
             'profile_image' => $path,
             'email' =>  $request['email'],
             'password' => Hash::make($request['password']),
+            'location'=> $request['location'],
         ]);
 
         $token = Auth::guard('company')->login($user);

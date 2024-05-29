@@ -64,7 +64,6 @@ class JobController extends Controller
             ]);
 
         $job->delete() ;
-        $job->save();
 
         return response()->json([
             'status'=>'success',

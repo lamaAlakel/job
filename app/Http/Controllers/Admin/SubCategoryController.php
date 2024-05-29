@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class SubCategoryController extends Controller
 {
-    public function addSubCategory($request){
+    public function addSubCategory(Request $request){
 
         $subcategory= SubCategory::create([
            'category_id'=> $request['category_id'] ,
@@ -29,7 +29,7 @@ class SubCategoryController extends Controller
                 'message'=>'no subcategory'
             ]);
         $subcategory_id ->delete();
-        $subcategory_id -> save();
+
         return response()->json([
             'message' => 'deleted successfully'], 200);
     }

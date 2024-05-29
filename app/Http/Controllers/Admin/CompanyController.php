@@ -23,7 +23,6 @@ class CompanyController extends Controller
                 'message'=>'no company'
             ]);
         $deleteCompany->delete();
-        $deleteCompany -> save();
 
         return response()->json([
             'status'=>'success',

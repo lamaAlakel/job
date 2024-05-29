@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
-    public function addCategory($request){
+    public function addCategory(Request $request){
         $category= Category::create([
             'name'=> $request['name']
         ]);
@@ -27,7 +27,7 @@ class CategoryController extends Controller
                 'message'=>'no category'
             ]);
         $category_id ->delete();
-        $category_id -> save();
+
         return response()->json([
             'message' => 'deleted successfully'], 200);
     }
