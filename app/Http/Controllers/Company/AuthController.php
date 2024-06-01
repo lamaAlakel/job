@@ -41,7 +41,6 @@ class AuthController extends Controller
             $path = $request->file('profile_image')->store('CompanyProfileImage') ;
         }
 
-
         $user=User::create([
             'name'=>$request['name'],
             'commercial_number'=>$request['commercial_number'],

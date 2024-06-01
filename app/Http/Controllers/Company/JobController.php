@@ -34,6 +34,42 @@ class JobController extends Controller
             'job' => $job], 201);
     }
 
+    public function updateJob(Request $request ,$job_id){
+
+        $company = Auth::guard('company')->user();
+        $job = Job::find($job_id);
+        if(!$job)
+            return response()->json([
+                'message' => 'no job'
+            ]);
+        if (!$company) {
+            return Response()->json([
+                'message' => 'no company'], 404);
+        }
+        if($company->id != $job_id)
+            return response()->json([
+                'status'=> false ,
+                'message'=> 'forbidden'
+            ]);
+
+        $job = Job::update([
+            'user_id' => $company->id,
+            'sub_category_id'=> $request['sub_category_id'],
+            'title' => $request['title'],
+            'description' => $request['description'],
+            'location' => $request['location'],
+            'on_site' => $request['on_site'],
+            'full_time' => $request['full_time'],
+            'max_salary' => $request['max_salary'],
+            'min_salary' => $request['min_salary'],
+            'image' => $request['image'],
+        ]);
+        $job -> save();
+        return response()->json([
+            'message'=>'job updated successfully'
+        ]);
+    }
+
     public function deleteJob($jobId)
     {
         $company = Auth::guard('company')->user();
@@ -85,9 +121,12 @@ class JobController extends Controller
 
         $requests = \App\Models\Request::with('mobile_user')->where('job_id' , $job_id)->get() ;
 
-        return response()->json([
+            return response()->json([
             'status' => true ,
             'requests' => $requests
-        ]) ;
+        ]);
     }
+
+
 }
+

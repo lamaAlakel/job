@@ -27,7 +27,6 @@ class CategoryController extends Controller
                 'message'=>'no category'
             ]);
         $category_id ->delete();
-
         return response()->json([
             'message' => 'deleted successfully'], 200);
     }
