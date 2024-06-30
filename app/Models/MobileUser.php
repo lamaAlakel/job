@@ -18,6 +18,7 @@ class MobileUser extends Authenticatable
         'phone_number',
         'cv',
         'link',
+        'experience',
         'eduction',
         'birth_date',
         'on_work',
