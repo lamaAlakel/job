@@ -13,6 +13,8 @@ class CategoryController extends Controller
         $category= Category::create([
             'name'=> $request['name']
         ]);
+        $category->save();
+
     return response()->json([
         'status'=>true ,
         'category'=> $category,
@@ -21,23 +23,21 @@ class CategoryController extends Controller
     }
 
     public function deleteCategory($category_id){
-        if(!$category_id)
+        $category = Category::find($category_id) ;
+        if(!$category)
             return response()->json([
                 'status'=> false,
                 'message'=>'no category'
             ]);
-        $category_id ->delete();
+        $category->delete();
         return response()->json([
             'message' => 'deleted successfully'], 200);
     }
-    public function showCategory(){
 
-        $categories = Category::all();
+    public function showCategories(){
+        $categories = Category::select('id' , 'name')->get();
         return response()->json([
-            'message' => 'deleted successfully',
-          'categories' => $categories ,
+          'categories' => $categories,
         ]);
-
-
-}
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
+use App\Traits\FileStorageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+    use FileStorageTrait ;
 
     public function __construct()
     {
@@ -38,7 +40,7 @@ class AuthController extends Controller
         $path = null ;
         if ($request->hasFile('profile_image'))
         {
-            $path = $request->file('profile_image')->store('CompanyProfileImage') ;
+            $path = $this->storefile($request->file('profile_image') , 'Company/Profile/images') ;
         }
 
         $user=User::create([

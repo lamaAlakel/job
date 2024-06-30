@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
 use App\Models\Job;
+use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
-
     public function createJob(Request $request)
     {
         $company = Auth::guard('company')->user();
@@ -17,9 +17,12 @@ class JobController extends Controller
             return Response()->json([
                 'message' => 'no company'], 404);
         }
+
+        $sub_category = SubCategory::where('name' , $request['sub_category_id'])->first() ;
+
         $job = Job::create([
             'user_id' => $company->id,
-            'sub_category_id'=> $request['sub_category_id'],
+            'sub_category_id'=> $sub_category->id,
             'title' => $request['title'],
             'description' => $request['description'],
             'location' => $request['location'],
@@ -28,7 +31,9 @@ class JobController extends Controller
             'max_salary' => $request['max_salary'],
             'min_salary' => $request['min_salary'],
             'image' => $request['image'],
+            'type'=>$request['type'],
         ]);
+        $job->save();
         return response()->json([
             'message' => 'created job successfully',
             'job' => $job], 201);
@@ -46,13 +51,13 @@ class JobController extends Controller
             return Response()->json([
                 'message' => 'no company'], 404);
         }
-        if($company->id != $job_id)
+        if($job->user_id != $company->id)
             return response()->json([
                 'status'=> false ,
                 'message'=> 'forbidden'
             ]);
 
-        $job = Job::update([
+        $job->update([
             'user_id' => $company->id,
             'sub_category_id'=> $request['sub_category_id'],
             'title' => $request['title'],
@@ -63,11 +68,14 @@ class JobController extends Controller
             'max_salary' => $request['max_salary'],
             'min_salary' => $request['min_salary'],
             'image' => $request['image'],
+            'type'=>$request['type'],
         ]);
-        $job -> save();
+
         return response()->json([
-            'message'=>'job updated successfully'
+            'message'=>'job updated successfully',
+            'job'=>$job
         ]);
+
     }
 
     public function deleteJob($jobId)
@@ -91,11 +99,11 @@ class JobController extends Controller
             'message' => 'deleted successfully'], 200);
     }
 
-
     public function showCompanyJobs()
     {
-        $company = Auth::guard('company')->user();
-        $jobs = Job::where('company_id', $company->id)->get();
+        $user=Auth::guard('company')->user();
+        $jobs = Job::where('user_id', $user->id)->get();
+
         return response()->json([
             'status' => true ,
             'jobs' => $jobs
@@ -106,14 +114,13 @@ class JobController extends Controller
     {
         $company =Auth::guard('company')->id() ;
         $job = Job::find($job_id) ;
-
         if(!$job)
             return response()->json([
                 'status'=>false ,
                 'message' => 'Not found'
             ],404);
 
-        if($job->user_id != $company->id)
+        if($job->user_id != $company)
             return response()->json([
                 'status'=>false ,
                 'message' => 'forbidden'
@@ -127,6 +134,14 @@ class JobController extends Controller
         ]);
     }
 
+    public function showSubCategories()
+    {
+        $sub_categories = SubCategory::select('name' , 'category_id')->get() ;
+        return response()->json([
+            'status' => 'true' ,
+            'cats' => $sub_categories
+        ]) ;
+    }
 
 }
 

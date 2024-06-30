@@ -9,8 +9,13 @@ Route::controller(\App\Http\Controllers\Company\AuthController::class)->group(fu
     Route::get('refresh','refresh')->middleware('auth:company');
 });
 
-Route::middleware('auth:company')->controller(\App\Http\Controllers\company\JobController::class)->group(function() {
-    Route::post('createJob', 'createJob');
-    Route::get('deleteJob/{jobId}', 'deleteJob');
-    Route::get('jobs', 'showCompanyJobs');
+Route::middleware('auth:company')->controller(\App\Http\Controllers\company\JobController::class)->prefix('job')->group(function() {
+    Route::post('create', 'createJob');
+    Route::post('update/{job_id}','updateJob');
+    Route::get('delete/{jobId}', 'deleteJob');
+    Route::get('index', 'showCompanyJobs');
+    Route::get('Request/{job_id}','JobRequest');
+    Route::get('showSubCategories' ,'showSubCategories' ) ;
 });
+
+

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
@@ -23,7 +23,8 @@ class SubCategoryController extends Controller
     }
 
     public function deleteSubCategory($subcategory_id){
-        if(!$subcategory_id)
+        $subcategory = SubCategory::find($subcategory_id) ;
+        if(!$subcategory)
             return response()->json([
                 'status'=> false,
                 'message'=>'no subcategory'
@@ -33,14 +34,12 @@ class SubCategoryController extends Controller
         return response()->json([
             'message' => 'deleted successfully'], 200);
     }
-    public function showSubCategory(){
 
-        $subcategories = SubCategory::all();
+    public function showSubCategories(){
+        $subcategories = SubCategory::with('category')->get();
         return response()->json([
-            'message' => 'deleted successfully',
             'subcategories' => $subcategories ,
         ]);
-
-
     }
+
 }

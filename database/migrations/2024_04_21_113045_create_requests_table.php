@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('mobile_user_id')->constrained('mobile_users');
             $table->foreignId('job_id')->constrained('jobs');
             $table->text('message');
+            $table->integer('salary');
             $table->string('cv') ; // file
             $table->timestamps();
         });
