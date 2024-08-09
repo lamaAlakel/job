@@ -101,7 +101,7 @@ class JobController extends Controller
 
     public function showCompanyJobs()
     {
-        $user=Auth::guard('company')->user();
+        $user = Auth::guard('company')->user();
         $jobs = Job::where('user_id', $user->id)->get();
 
         return response()->json([
@@ -143,5 +143,9 @@ class JobController extends Controller
         ]) ;
     }
 
+    public function filter(Request $request)
+    {
+    //   \App\Models\Request::whereHas('mobile_user' , function)
+    }
 }
 
