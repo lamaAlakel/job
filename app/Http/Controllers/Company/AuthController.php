@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
+use App\Traits\FileStorageTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+    use FileStorageTrait ;
 
     public function __construct()
     {
@@ -21,10 +23,11 @@ class AuthController extends Controller
         $validate = Validator::make($request->all(), [
             'name' => 'required|string|max:255 ',
             'commercial_number' => 'required|string',
-            'bio' => 'string',
+            'bio' => 'nullable |string',
             'profile_image' => 'nullable|image',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
+            'location'=>'nullable | string'
         ]);
         if ($validate->fails()) {
             return response()->json([
@@ -37,9 +40,8 @@ class AuthController extends Controller
         $path = null ;
         if ($request->hasFile('profile_image'))
         {
-            $path = $request->file('profile_image')->store('CompanyProfileImage') ;
+            $path = $this->storefile($request->file('profile_image') , 'Company/Profile/images') ;
         }
-
 
         $user=User::create([
             'name'=>$request['name'],
@@ -48,7 +50,7 @@ class AuthController extends Controller
             'profile_image' => $path,
             'email' =>  $request['email'],
             'password' => Hash::make($request['password']),
-            'phone_number'=>$request['phone_number']
+            'location'=> $request['location'],
         ]);
 
         $token = Auth::guard('company')->login($user);

@@ -18,35 +18,6 @@ class AuthController extends Controller
         $this->middleware('auth:admin', ['except' => ['login','register']]);
     }
 
-    public function register(Request $request){
-        $validate = Validator::make($request->all() ,[
-            'name'=>'required | string | max:255',
-            'email'=>'required |string| email | max:255 | unique:admins',
-            'password'=>'required | string | min:10 | max: 255 '
-            ]);
-        if ($validate->fails()) {
-            return response()->json([
-                'status' => false,
-                'errors' => $validate->errors()
-            ]);
-    }
-        $admin=Admin::create([
-        'name'=>$request['name'],
-        'email'=>$request['email'],
-        'password'=> Hash::make($request['password'])
-        ]);
-        $token= Auth::guard('admin')->login($admin);
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Admin created successfully',
-            'user' => $admin,
-            'authorisation' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
-        ]);
-    }
 
     public function login(Request $request){
         $request->validate([

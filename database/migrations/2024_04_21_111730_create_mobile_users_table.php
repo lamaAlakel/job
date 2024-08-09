@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('phone_number');
             $table->string('cv');
             $table->json('link');
+            $table->integer('experience');
             $table->string('eduction');
             $table->date('birth_date');
             $table->boolean('on_work');

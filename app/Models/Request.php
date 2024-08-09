@@ -11,6 +11,7 @@ class Request extends Model
     protected $fillable=[
         'mobile_user_id',
         'job_id',
+        'salary',
         'message',
         'cv'
     ];
@@ -23,6 +24,5 @@ class Request extends Model
     {
         return $this->belongsTo(Job::class , 'job_id') ;
     }
-
 
 }
