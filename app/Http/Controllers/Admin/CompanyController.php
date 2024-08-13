@@ -29,4 +29,18 @@ class CompanyController extends Controller
             'message'=>'deleted successfully'
         ]);
     }
+
+    public function addBalance(Request $request)
+    {
+        $company = User::find($request->company_id);
+        if (!$company) {
+            return response()->json(['message' => 'No company'], 404);
+        }
+
+        $amount = $request->input('balance');
+
+        $company->increaseBalance($amount);
+
+        return response()->json(['message' => 'Balance added successfully'], 200);
+    }
 }

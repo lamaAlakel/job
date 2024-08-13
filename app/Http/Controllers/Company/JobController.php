@@ -16,15 +16,22 @@ class JobController extends Controller
     {
         $company = Auth::guard('company')->user();
         if (!$company) {
-            return Response()->json([
-                'message' => 'no company'], 404);
+            return response()->json(['message' => 'No company'], 404);
         }
 
-        $sub_category = SubCategory::where('name' , $request['sub_category_id'])->first() ;
+        // Amount to decrease
+        $cost = 100000;
+
+        // Check if company has enough balance
+        if (!$company->decreaseBalance($cost)) {
+            return response()->json(['message' => 'Insufficient balance'], 403);
+        }
+
+        $sub_category = SubCategory::where('name', $request['sub_category_id'])->first();
 
         $job = Job::create([
             'user_id' => $company->id,
-            'sub_category_id'=> $sub_category->id,
+            'sub_category_id' => $sub_category->id,
             'title' => $request['title'],
             'description' => $request['description'],
             'location' => $request['location'],
@@ -33,12 +40,14 @@ class JobController extends Controller
             'max_salary' => $request['max_salary'],
             'min_salary' => $request['min_salary'],
             'image' => $request['image'],
-            'type'=>$request['type'],
+            'type' => $request['type'],
         ]);
         $job->save();
+
         return response()->json([
-            'message' => 'created job successfully',
-            'job' => $job], 201);
+            'message' => 'Job created successfully',
+            'job' => $job
+        ], 201);
     }
 
     public function updateJob(Request $request ,$job_id){

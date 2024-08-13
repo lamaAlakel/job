@@ -26,11 +26,28 @@ class User extends Authenticatable implements JWTSubject
         'bio',
         'location',
         'profile_image',
+        'balance'
     ];
 
 
     public function jobs(){
         return $this->hasMany(Job::class,'user_id');
+    }
+
+    public function increaseBalance($amount)
+    {
+        $this->balance += $amount;
+        $this->save();
+    }
+
+    public function decreaseBalance($amount)
+    {
+        if ($this->balance >= $amount) {
+            $this->balance -= $amount;
+            $this->save();
+            return true;
+        }
+        return false;
     }
 
     /**

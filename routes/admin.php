@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::controller(\App\Http\Controllers\Admin\AuthController::class)->group(function () {
-    Route::post('register', 'register');
+//    Route::post('register', 'register');
     Route::post('login', 'login');
     Route::get('logout', 'logout')->middleware('auth:admin');
 });
@@ -18,6 +18,7 @@ Route::controller(\App\Http\Controllers\Admin\JobController::class)->prefix('job
 Route::controller(\App\Http\Controllers\Admin\CompanyController::class)->prefix('company')->group(function () {
     Route::get('browse', 'browseCompany')->middleware('auth:admin');
     Route::get('delete/{user_id}', 'deleteCompany')->middleware('auth:admin');
+    Route::post('/balance/add' ,  'addBalance')->middleware('auth:admin');
 });
 
 Route::controller(\App\Http\Controllers\Admin\CategoryController::class)->prefix('category')->group(function () {

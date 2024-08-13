@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
 
             JobSeeder::class,
             RequestSeeder::class,
+            AdminSeeder::class
         ]);
     }
 }
