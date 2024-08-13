@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
+use App\Mail\JobApproved;
 use App\Models\Job;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class JobController extends Controller
 {
@@ -146,17 +148,24 @@ class JobController extends Controller
     public function approveJobRequest($request_id)
     {
         $jobRequest = \App\Models\Request::find($request_id);
-        if(!$jobRequest)
+        if (!$jobRequest)
             return response()->json([
-                'message' => 'no Job Request'
+                'message' => 'No Job Request'
             ]);
 
-        $jobRequest->type ='approved';
+        $jobRequest->type = 'approved';
         $jobRequest->save();
 
+        // Get job and user details
+        $job = $jobRequest->job;
+        $user = $jobRequest->mobile_user;
+
+        // Send email
+        Mail::to($user->email)->send(new JobApproved($job->user->name, $job->title));
+
         return response()->json([
-            'status'=>'success',
-            'message'=>'approved successfully'
+            'status' => 'success',
+            'message' => 'Approved successfully'
         ]);
     }
 
