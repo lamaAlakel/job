@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('mobile_user_id')->constrained('mobile_users');
             $table->foreignId('sub_category_id')->constrained('sub_categories');
-            $table->string('description');
             $table->timestamps();
         });
     }

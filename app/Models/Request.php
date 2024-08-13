@@ -13,7 +13,8 @@ class Request extends Model
         'job_id',
         'salary',
         'message',
-        'cv'
+        'cv',
+        'type'
     ];
 
     public function mobile_user()

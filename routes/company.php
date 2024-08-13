@@ -16,6 +16,6 @@ Route::middleware('auth:company')->controller(\App\Http\Controllers\company\JobC
     Route::get('index', 'showCompanyJobs');
     Route::get('Request/{job_id}','JobRequest');
     Route::get('showSubCategories' ,'showSubCategories' ) ;
+    Route::get('approveJobRequest/{request_id}' , 'approveJobRequest') ;
 });
-
 

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('message');
             $table->integer('salary');
             $table->string('cv') ; // file
+            $table->enum('type',['approved','pending'])->default('pending');
             $table->timestamps();
         });
     }

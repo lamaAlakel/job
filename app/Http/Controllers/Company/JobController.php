@@ -143,9 +143,22 @@ class JobController extends Controller
         ]) ;
     }
 
-    public function filter(Request $request)
+    public function approveJobRequest($request_id)
     {
-    //   \App\Models\Request::whereHas('mobile_user' , function)
+        $jobRequest = \App\Models\Request::find($request_id);
+        if(!$jobRequest)
+            return response()->json([
+                'message' => 'no Job Request'
+            ]);
+
+        $jobRequest->type ='approved';
+        $jobRequest->save();
+
+        return response()->json([
+            'status'=>'success',
+            'message'=>'approved successfully'
+        ]);
     }
+
 }
 
