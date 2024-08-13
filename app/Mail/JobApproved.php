@@ -19,7 +19,7 @@ class JobApproved extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($companyName ,$jobTitle )
     {
         $this->companyName = $companyName;
         $this->jobTitle = $jobTitle;
