@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('mobile_users_sub_categories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('mobile_user_id')->constrained('mobile_users');
-            $table->foreignId('sub_category_id')->constrained('sub_categories');
+            $table->foreignId('mobile_user_id')->constrained('mobile_users')->onDelete('cascade');
+            $table->foreignId('sub_category_id')->constrained('sub_categories')->onDelete('cascade');
             $table->timestamps();
         });
     }
